@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { works, brands, testimonials, blogPosts } from '@/lib/data';
 
 type BlogType = { title: string, content: string, category: string };
@@ -55,7 +55,6 @@ export default function Home() {
   const INITIAL_BLOGS = 3;
   const [visibleBlogCount, setVisibleBlogCount] = useState(INITIAL_BLOGS);
 
-  const requestRef = useRef<number | null>(null);
 
   // Pürüzsüz Preloader
   useEffect(() => {
@@ -576,15 +575,6 @@ export default function Home() {
           </form>
         </div>
       </section>
-
-      {/* --- DEV SIGNATURE --- */}
-      <div className="w-full flex justify-center pb-8 pt-4 opacity-50 hover:opacity-100 transition-opacity duration-500">
-        <a href="https://fahrettinbasturk.com" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[9px] font-bold tracking-[0.4em] uppercase text-zinc-600 hover:text-primary transition-colors">
-          <span>Designed & Developed by</span>
-          <span className="text-primary group-hover:text-white transition-colors">Fahrettin Baştürk</span>
-        </a>
-      </div>
-
     </div>
   );
 }
