@@ -55,14 +55,13 @@ export default function Home() {
   const INITIAL_BLOGS = 3;
   const [visibleBlogCount, setVisibleBlogCount] = useState(INITIAL_BLOGS);
 
-
   // Pürüzsüz Preloader
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
 
-  // Modal Scroll Kilidi ve ESC ile Kapatma (UX Geliştirmesi)
+  // Modal Scroll Kilidi ve ESC ile Kapatma
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -85,7 +84,7 @@ export default function Home() {
     };
   }, [lightboxData, isQuoteModalOpen, activeBlog]);
 
-  // Scroll Reveal Animasyonu (Intersection Observer)
+  // Scroll Reveal Animasyonu
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -93,7 +92,7 @@ export default function Home() {
           if (entry.isIntersecting) {
             entry.target.classList.add('opacity-100', 'translate-y-0');
             entry.target.classList.remove('opacity-0', 'translate-y-12');
-            observer.unobserve(entry.target); // Bir kere çalışsın
+            observer.unobserve(entry.target); 
           }
         });
       },
@@ -136,7 +135,8 @@ export default function Home() {
         <button className="absolute top-8 right-10 text-white/30 hover:text-primary text-4xl transition-colors duration-300 font-light">&times;</button>
         {lightboxData && (
           <>
-            <div className="relative w-full max-w-6xl h-[80vh] transform transition-transform duration-700 ease-out scale-100">
+            <div className="relative w-full max-w-7xl h-[85vh] transform transition-transform duration-700 ease-out scale-100 flex items-center justify-center">
+              {/* Lightbox içindeki görselin de hiçbir şekilde kesilmeden tam boyutlu çıkması garantiye alındı */}
               <Image src={lightboxData.src} alt={lightboxData.title} fill sizes="(max-width: 1200px) 100vw, 1200px" className="object-contain drop-shadow-[0_0_60px_rgba(192,160,98,0.15)]" />
             </div>
             <div className="mt-8 text-primary text-sm font-bold tracking-[0.3em] uppercase opacity-90">
@@ -208,16 +208,17 @@ export default function Home() {
         )}
       </div>
 
-      {/* --- YENİ HERO SECTION (Sol Görsel, Sağ Tipografi) --- */}
+      {/* --- YENİ HERO SECTION (UX DÜZELTİLDİ: Resim Solda, Yazı Sağda) --- */}
       <section id="hero" className="max-w-7xl mx-auto px-6 w-full min-h-[90vh] md:min-h-screen flex flex-col lg:flex-row items-center justify-between relative pt-32 pb-20 overflow-hidden">
         
         {/* Ortam Işığı (Sola, görselin arkasına kaydırıldı) */}
-        <div className="absolute top-1/2 left-1/2 lg:left-1/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.05] blur-[150px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 lg:left-1/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.04] blur-[150px] rounded-full pointer-events-none"></div>
 
         {/* Sol Kısım: Editoryal Afiş (Görsel) */}
         <div className="z-10 w-full lg:w-1/2 flex justify-center lg:justify-start mb-16 lg:mb-0 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
           <div className="relative w-[85%] sm:w-[65%] lg:w-[85%] xl:w-[80%] aspect-[4/5] rounded-sm overflow-hidden border border-primary/20 shadow-[0_0_80px_rgba(192,160,98,0.15)] group">
             <div className="absolute inset-0 bg-primary/10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-1000 z-10"></div>
+            {/* Portre resminde nesne doldurması için cover uygundur */}
             <Image src="/assets/mezuniyet.jpg" alt="Alperen Börklü" fill sizes="(max-width: 1024px) 80vw, 40vw" className="object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.5s] group-hover:scale-105" priority />
             
             {/* Lüks Detay: Hover anında beliren iç etiket */}
@@ -268,7 +269,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- WORK SECTION --- */}
+      {/* --- WORK SECTION (GÖRSELLERİN KESİLMEMESİ İÇİN DÜZELTİLDİ) --- */}
       <section id="work" className="py-32 max-w-7xl mx-auto px-6 w-full">
         <div className="flex flex-col items-center justify-center mb-24 text-center reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
           <div className="w-[1px] h-16 bg-primary/50 mb-8"></div>
@@ -276,18 +277,21 @@ export default function Home() {
           <h2 className="text-4xl md:text-6xl font-medium font-playfair text-white tracking-tight">Selected Works</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {works.map((work, index) => (
             <div 
               key={index} 
-              className="group relative aspect-[4/5] bg-[#0a0a0a] overflow-hidden cursor-zoom-in rounded-sm reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out"
+              // aspect-ratio zorlaması kaldırıldı, sabit yükseklikli bir galeri çerçevesine dönüştürüldü
+              className="group relative h-[350px] sm:h-[420px] bg-[#050505] overflow-hidden cursor-zoom-in rounded-sm border border-white/5 hover:border-primary/30 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out flex items-center justify-center"
               style={{ transitionDelay: `${index * 100}ms` }}
               onClick={() => setLightboxData({ src: work.src, title: work.title })}
             >
-              <Image src={work.src} alt={work.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover transition-transform duration-[1.5s] group-hover:scale-110 opacity-60 group-hover:opacity-100 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/95 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-10">
+              {/* object-contain ve p-6 kullanılarak görsellerin 100% kendi orijinal boyutlarında (kesilmeden) gösterilmesi sağlandı */}
+              <Image src={work.src} alt={work.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-contain p-6 transition-transform duration-[1.5s] group-hover:scale-105 opacity-80 group-hover:opacity-100 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" />
+              
+              <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8">
                 <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700 ease-out">
-                  <h3 className="text-2xl font-medium text-white font-playfair mb-3">{work.title}</h3>
+                  <h3 className="text-2xl font-medium text-white font-playfair mb-2">{work.title}</h3>
                   <p className="text-[9px] text-primary font-bold uppercase tracking-[0.3em]">{work.category}</p>
                 </div>
               </div>
@@ -368,7 +372,6 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Basic */}
           <div className="bg-[#0a0a0a] rounded-sm p-14 border border-white/5 flex flex-col hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 reveal-on-scroll opacity-0 translate-y-12 ease-out" style={{ transitionDelay: '0ms' }}>
             <h3 className="text-2xl font-medium text-white mb-3 font-playfair">Basic</h3>
             <div className="text-5xl font-light text-zinc-300 mb-6">$500</div>
@@ -383,7 +386,6 @@ export default function Home() {
             <button onClick={() => handleOpenQuoteModal('Basic')} className="w-full py-5 border border-white/10 text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm">Request Quote</button>
           </div>
 
-          {/* Standard */}
           <div className="bg-[#0f0f0f] rounded-sm p-14 border border-primary/50 flex flex-col relative shadow-[0_0_60px_rgba(192,160,98,0.08)] transform lg:-translate-y-6 z-10 reveal-on-scroll opacity-0 translate-y-12 ease-out" style={{ transitionDelay: '150ms' }}>
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary text-black px-8 py-2.5 text-[9px] font-bold uppercase tracking-[0.3em] rounded-sm">Most Popular</div>
             <h3 className="text-2xl font-medium text-white mb-3 mt-4 font-playfair">Standard</h3>
@@ -400,7 +402,6 @@ export default function Home() {
             <button onClick={() => handleOpenQuoteModal('Standard')} className="w-full py-5 bg-primary text-black text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-white transition-colors duration-300 rounded-sm">Request Quote</button>
           </div>
 
-          {/* Gold */}
           <div className="bg-[#0a0a0a] rounded-sm p-14 border border-white/5 flex flex-col hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 reveal-on-scroll opacity-0 translate-y-12 ease-out" style={{ transitionDelay: '300ms' }}>
             <h3 className="text-2xl font-medium text-white mb-3 font-playfair">Gold</h3>
             <div className="text-5xl font-light text-zinc-300 mb-6">$2,000</div>
@@ -590,6 +591,7 @@ export default function Home() {
           </form>
         </div>
       </section>
+
     </div>
   );
 }

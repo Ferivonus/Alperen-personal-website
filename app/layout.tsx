@@ -102,12 +102,10 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#080808] text-white antialiased`}>
         <Header />
-        
         {/* Ana sayfa içeriği */}
         <main className="min-h-screen relative">
           {children}
         </main>
-        
         <Footer />
       </body>
     </html>
