@@ -208,21 +208,44 @@ export default function Home() {
         )}
       </div>
 
-      {/* --- YENİ HERO SECTION (Asimetrik & Editoryal) --- */}
+      {/* --- YENİ HERO SECTION (Sol Görsel, Sağ Tipografi) --- */}
       <section id="hero" className="max-w-7xl mx-auto px-6 w-full min-h-[90vh] md:min-h-screen flex flex-col lg:flex-row items-center justify-between relative pt-32 pb-20 overflow-hidden">
         
-        {/* Ortam Işığı (Sağ tarafa doğru kaydırıldı) */}
-        <div className="absolute top-1/2 left-1/2 lg:left-3/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.04] blur-[150px] rounded-full pointer-events-none"></div>
+        {/* Ortam Işığı (Sola, görselin arkasına kaydırıldı) */}
+        <div className="absolute top-1/2 left-1/2 lg:left-1/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.05] blur-[150px] rounded-full pointer-events-none"></div>
 
-        {/* Sol Kısım: Dev Tipografi ve CTA */}
-        <div className="z-10 flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:w-1/2 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 delay-200 ease-out">
-          <p className="text-primary font-bold tracking-[0.5em] uppercase text-[10px] mb-6 md:mb-8">Visual Artist</p>
-          <h1 className="text-6xl md:text-[6rem] lg:text-[7.5rem] font-playfair font-normal tracking-tight text-white leading-[1.05] mb-8 drop-shadow-2xl">
+        {/* Sol Kısım: Editoryal Afiş (Görsel) */}
+        <div className="z-10 w-full lg:w-1/2 flex justify-center lg:justify-start mb-16 lg:mb-0 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
+          <div className="relative w-[85%] sm:w-[65%] lg:w-[85%] xl:w-[80%] aspect-[4/5] rounded-sm overflow-hidden border border-primary/20 shadow-[0_0_80px_rgba(192,160,98,0.15)] group">
+            <div className="absolute inset-0 bg-primary/10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-1000 z-10"></div>
+            <Image src="/assets/mezuniyet.jpg" alt="Alperen Börklü" fill sizes="(max-width: 1024px) 80vw, 40vw" className="object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.5s] group-hover:scale-105" priority />
+            
+            {/* Lüks Detay: Hover anında beliren iç etiket */}
+            <div className="absolute bottom-8 left-8 z-20 overflow-hidden pointer-events-none hidden md:block">
+              <div className="translate-y-[120%] group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.7,0,0.3,1)] flex items-center gap-4">
+                <span className="w-8 h-[1px] bg-white"></span>
+                <span className="text-[9px] tracking-[0.4em] text-white uppercase font-bold drop-shadow-md">Director</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Sağ Kısım: Dev Tipografi ve CTA */}
+        <div className="z-10 flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:w-1/2 lg:pl-12 xl:pl-16 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 delay-200 ease-out">
+          
+          {/* Bağlayıcı Çizgi ve Üst Başlık */}
+          <div className="flex items-center gap-6 mb-6 md:mb-8">
+            <div className="w-16 h-[1px] bg-primary/50 hidden lg:block"></div>
+            <p className="text-primary font-bold tracking-[0.5em] uppercase text-[10px]">Visual Artist</p>
+          </div>
+
+          <h1 className="text-6xl md:text-[6.5rem] lg:text-[7rem] xl:text-[8rem] font-playfair font-normal tracking-tight text-white leading-[1.05] mb-8 drop-shadow-2xl">
             Hello, <br className="hidden lg:block" />
             <span className="italic text-primary pr-2">I&apos;m Alperen.</span>
           </h1>
-          <p className="text-lg md:text-xl text-zinc-400 mb-12 font-light tracking-wide max-w-md">
-            I turn pixels into stories.
+          
+          <p className="text-lg md:text-xl text-zinc-400 mb-12 font-light tracking-wide max-w-md lg:max-w-sm xl:max-w-md">
+            I turn pixels into stories. Crafting digital environments, motion, and art direction.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto justify-center lg:justify-start">
@@ -236,20 +259,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Sağ Kısım: Editoryal Afiş (Görsel) */}
-        <div className="z-10 w-full lg:w-1/2 flex justify-center lg:justify-end mt-20 lg:mt-0 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-          <div className="relative w-[85%] sm:w-[65%] lg:w-[80%] xl:w-[75%] aspect-[3/4] rounded-sm overflow-hidden border border-primary/20 shadow-[0_0_80px_rgba(192,160,98,0.1)] group">
-            <div className="absolute inset-0 bg-primary/10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-1000 z-10"></div>
-            <Image src="/assets/mezuniyet.jpg" alt="Alperen Börklü" fill sizes="(max-width: 1024px) 80vw, 40vw" className="object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.5s] group-hover:scale-105" priority />
-          </div>
-        </div>
-
-        {/* Lüks Scroll Indicator (Masaüstünde sol altta, Mobilde gizli/akışta) */}
-        <div className="absolute bottom-10 left-6 hidden lg:flex flex-col items-center gap-4 opacity-50 z-10 reveal-on-scroll opacity-0 transition-all duration-1000 delay-500 ease-out">
-          <span className="text-[8px] tracking-[0.4em] uppercase text-primary font-bold writing-vertical-rl">Scroll</span>
+        {/* Lüks Scroll Indicator (Merkezde) */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-4 opacity-50 z-10 reveal-on-scroll opacity-0 transition-all duration-1000 delay-500 ease-out">
           <div className="w-[1px] h-16 bg-white/10 relative overflow-hidden">
             <div className="w-full h-full bg-primary absolute top-0 left-0 animate-scroll-line"></div>
           </div>
+          <span className="text-[8px] tracking-[0.4em] uppercase text-primary font-bold">Scroll</span>
         </div>
       </section>
 
