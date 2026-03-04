@@ -1,52 +1,113 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Sayfa kaydırma efekti
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: 'Work', href: '#work' },
+    { name: 'About', href: '#about' },
+    { name: 'Pricing', href: '#pricing' },
+    { name: 'Writings', href: '#blog' },
+    { name: 'Resume', href: '#resume' },
+  ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="text-xl font-bold tracking-wider text-white">
-          Alperen Börklü
+    <header 
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
+        scrolled 
+          ? 'py-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg' 
+          : 'py-6 bg-gradient-to-b from-black/80 to-transparent'
+      }`}
+    >
+      <div className="container mx-auto px-6 flex justify-between items-center">
+        
+        {/* Sol Taraf: Logo */}
+        <Link 
+          href="/" 
+          className="text-xl font-bold font-playfair tracking-widest text-white relative z-50 hover:text-zinc-300 transition-colors"
+        >
+          ALPEREN
         </Link>
 
-        {/* Masaüstü Menü */}
-        <nav className="hidden md:flex space-x-6 text-sm font-medium text-gray-300">
-          <Link href="https://www.youtube.com/watch?v=v-fPkuxrqN4" target="_blank" className="hover:text-white transition-colors">Showreel</Link>
-          <Link href="#work" className="hover:text-white transition-colors">Work</Link>
-          <Link href="#brands" className="hover:text-white transition-colors">Brands</Link>
-          <Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link>
-          <Link href="#blog" className="hover:text-white transition-colors">Blog</Link>
-          <Link href="#resume" className="hover:text-white transition-colors">Resume</Link>
-          <Link href="#about" className="hover:text-white transition-colors">About</Link>
-          <Link href="#testimonials" className="hover:text-white transition-colors">Referrals</Link>
-          <Link href="#contact" className="hover:text-white transition-colors">Contact</Link>
+        {/* Orta & Sağ Taraf: Masaüstü Menü */}
+        <nav className="hidden md:flex items-center space-x-8">
+          <div className="flex space-x-8">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-all duration-300"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+          
+          {/* Menü ile buton arasına dikey zarif bir ayrım çizgisi */}
+          <div className="w-[1px] h-4 bg-white/20"></div>
+
+          <Link 
+            href="#contact" 
+            className="text-[11px] font-bold uppercase tracking-[0.15em] bg-white text-black px-6 py-2.5 rounded-full hover:bg-zinc-200 hover:scale-105 transition-all duration-300"
+          >
+            Let&apos;s Talk
+          </Link>
         </nav>
 
         {/* Mobil Menü Butonu */}
         <button 
-          className="md:hidden text-white focus:outline-none"
+          className="md:hidden text-white z-50 p-2 -mr-2 focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
-          </svg>
+          <div className="w-6 flex flex-col items-end gap-1.5">
+            <span className={`h-[2px] bg-white transition-all duration-300 ${isOpen ? 'w-6 rotate-45 translate-y-[8px]' : 'w-6'}`}></span>
+            <span className={`h-[2px] bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : 'w-4'}`}></span>
+            <span className={`h-[2px] bg-white transition-all duration-300 ${isOpen ? 'w-6 -rotate-45 -translate-y-[8px]' : 'w-5'}`}></span>
+          </div>
         </button>
       </div>
 
       {/* Mobil Açılır Menü */}
-      {isOpen && (
-        <div className="md:hidden bg-black/95 border-b border-white/10 p-4 space-y-4 flex flex-col text-center">
-          <Link href="#work" onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white">Work</Link>
-          <Link href="#resume" onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white">Resume</Link>
-          <Link href="#contact" onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white">Contact</Link>
-          {/* Diğer linkleri de buraya ekleyebilirsin */}
+      <div 
+        className={`md:hidden absolute top-0 left-0 w-full bg-zinc-950 border-b border-white/10 shadow-2xl transition-all duration-500 ease-out flex flex-col ${
+          isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-4 invisible'
+        }`}
+      >
+        <div className="pt-24 pb-8 px-6 flex flex-col space-y-6 text-center">
+          {navLinks.map((link) => (
+            <Link 
+              key={link.name} 
+              href={link.href} 
+              onClick={() => setIsOpen(false)}
+              className="text-sm font-bold uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-colors"
+            >
+              {link.name}
+            </Link>
+          ))}
+          <div className="pt-4 border-t border-white/10">
+            <Link 
+              href="#contact" 
+              onClick={() => setIsOpen(false)}
+              className="inline-block text-xs font-bold uppercase tracking-[0.15em] bg-white text-black px-8 py-3 rounded-full mt-2"
+            >
+              Let&apos;s Talk
+            </Link>
+          </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
