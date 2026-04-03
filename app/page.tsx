@@ -7,7 +7,7 @@ import { works, brands, testimonials, blogPosts } from '@/lib/data';
 
 type BlogType = { title: string, content: string, category: string };
 
-// --- GÜVENLİ HTML PARSER ---
+// --- GÜVENLİ HTML PARSER (Kütüphanesiz / Regex) ---
 const renderSafeHTML = (htmlString: string) => {
   const blockRegex = /<(h3|p|ul)>([\s\S]*?)<\/\1>/g;
   const elements = [];
@@ -118,21 +118,21 @@ export default function Home() {
   const isAllBlogsVisible = visibleBlogCount >= blogPosts.length;
 
   return (
-    <div className="relative flex flex-col pb-24 text-foreground bg-background font-sans selection:bg-primary selection:text-black overflow-x-hidden">
+    <div className="relative flex flex-col pb-0 text-foreground bg-background font-sans selection:bg-primary selection:text-black overflow-x-hidden">
 
       {/* SİNEMATİK GRAIN (NOISE) */}
-      <div className="pointer-events-none fixed inset-0 z-[40] opacity-[0.03] mix-blend-screen bg-noise"></div>
+      <div className="pointer-events-none fixed inset-0 z-40 opacity-[0.03] mix-blend-screen bg-noise"></div>
 
       {/* --- PRELOADER --- */}
-      <div className={`fixed inset-0 z-[1000] bg-background flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isLoading ? 'opacity-100 visible scale-105' : 'opacity-0 invisible pointer-events-none scale-100'}`}>
+      <div className={`fixed inset-0 z-1000 bg-background flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.7,0,0.3,1)] ${isLoading ? 'opacity-100 visible scale-105' : 'opacity-0 invisible pointer-events-none scale-100'}`}>
         <div className="text-primary text-sm md:text-base font-bold tracking-[0.5em] uppercase overflow-hidden">
           <span className="inline-block animate-pulse">Alperen Börklü</span>
         </div>
       </div>
 
       {/* --- LIGHTBOX MODAL --- */}
-      <div className={`fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-4 backdrop-blur-xl transition-all duration-700 ease-out cursor-zoom-out ${lightboxData ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`} onClick={() => setLightboxData(null)}>
-        <button className="absolute top-8 right-10 text-white/30 hover:text-primary text-4xl transition-colors duration-300 font-light">&times;</button>
+      <div className={`fixed inset-0 z-100 bg-black/95 flex flex-col items-center justify-center p-4 backdrop-blur-xl transition-all duration-700 ease-out cursor-zoom-out ${lightboxData ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`} onClick={() => setLightboxData(null)}>
+        <button type="button" aria-label="Close Lightbox" className="absolute top-8 right-10 text-white/30 hover:text-primary focus:text-primary focus:outline-none text-4xl transition-colors duration-300 font-light">&times;</button>
         {lightboxData && (
           <>
             <div className="relative w-full max-w-7xl h-[85vh] transform transition-transform duration-700 ease-out scale-100 flex items-center justify-center">
@@ -147,12 +147,12 @@ export default function Home() {
       </div>
 
       {/* --- QUOTE (TEKLİF İSTE) MODAL --- */}
-      <div className={`fixed inset-0 z-[100] bg-background/95 flex items-center justify-center p-4 md:p-8 backdrop-blur-md transition-all duration-500 overflow-y-auto ${isQuoteModalOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`} onClick={() => setIsQuoteModalOpen(false)}>
+      <div className={`fixed inset-0 z-100 bg-background/95 flex items-center justify-center p-4 md:p-8 backdrop-blur-md transition-all duration-500 overflow-y-auto ${isQuoteModalOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`} onClick={() => setIsQuoteModalOpen(false)}>
         <div 
           className={`bg-[#0a0a0a] border border-primary/20 p-10 md:p-16 rounded-sm max-w-2xl w-full relative shadow-[0_0_100px_rgba(192,160,98,0.05)] cursor-auto transition-all duration-700 my-auto ${isQuoteModalOpen ? 'translate-y-0 scale-100' : 'translate-y-12 scale-95'}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <button className="absolute top-8 right-10 text-zinc-600 hover:text-primary text-4xl font-light transition-colors" onClick={() => setIsQuoteModalOpen(false)}>&times;</button>
+          <button type="button" aria-label="Close Modal" className="absolute top-8 right-10 text-zinc-600 hover:text-primary focus:text-primary focus:outline-none text-4xl font-light transition-colors" onClick={() => setIsQuoteModalOpen(false)}>&times;</button>
           
           <h2 className="text-4xl font-medium mb-3 text-white font-playfair tracking-wide">Request Quote</h2>
           <p className="text-primary mb-12 font-light text-xs tracking-[0.3em] uppercase">Let&apos;s build something real.</p>
@@ -182,7 +182,7 @@ export default function Home() {
               <label htmlFor="quote-message" className="absolute left-0 top-3 text-zinc-600 text-sm transition-all peer-focus:-top-5 peer-focus:text-[10px] peer-focus:tracking-[0.2em] peer-focus:uppercase peer-focus:text-primary peer-[:not(:placeholder-shown)]:-top-5 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:tracking-[0.2em] peer-[:not(:placeholder-shown)]:uppercase pointer-events-none">Project Details</label>
             </div>
 
-            <button type="submit" className="w-full relative group overflow-hidden border border-primary bg-transparent text-primary font-bold py-5 text-xs tracking-[0.3em] uppercase transition-colors duration-300 rounded-sm mt-4">
+            <button type="submit" className="w-full relative group overflow-hidden border border-primary bg-transparent text-primary font-bold py-5 text-xs tracking-[0.3em] uppercase transition-colors duration-300 rounded-sm mt-4 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#0a0a0a]">
               <span className="relative z-10 group-hover:text-black transition-colors duration-500">Send Request</span>
               <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.7,0,0.3,1)]"></div>
             </button>
@@ -191,13 +191,13 @@ export default function Home() {
       </div>
 
       {/* --- BLOG MODAL --- */}
-      <div className={`fixed inset-0 z-[100] bg-background/95 flex items-center justify-center p-4 md:p-8 backdrop-blur-md overflow-y-auto transition-all duration-500 ${activeBlog ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`} onClick={() => setActiveBlog(null)}>
+      <div className={`fixed inset-0 z-100 bg-background/95 flex items-center justify-center p-4 md:p-8 backdrop-blur-md overflow-y-auto transition-all duration-500 ${activeBlog ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`} onClick={() => setActiveBlog(null)}>
         {activeBlog && (
           <div 
             className={`bg-[#0a0a0a] border border-primary/20 p-10 md:p-20 rounded-sm max-w-4xl w-full relative my-auto shadow-2xl cursor-auto transition-all duration-700 ${activeBlog ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <button className="absolute top-8 right-10 text-zinc-600 hover:text-primary text-4xl font-light transition-colors" onClick={() => setActiveBlog(null)}>&times;</button>
+            <button type="button" aria-label="Close Blog Article" className="absolute top-8 right-10 text-zinc-600 hover:text-primary focus:text-primary focus:outline-none text-4xl font-light transition-colors" onClick={() => setActiveBlog(null)}>&times;</button>
             <p className="text-primary text-[10px] font-bold tracking-[0.4em] uppercase mb-8">{activeBlog.category}</p>
             <h2 className="text-4xl md:text-6xl font-medium mb-16 text-white font-playfair tracking-tight leading-[1.1]">{activeBlog.title}</h2>
             
@@ -208,23 +208,21 @@ export default function Home() {
         )}
       </div>
 
-      {/* --- YENİ HERO SECTION (UX DÜZELTİLDİ: Resim Solda, Yazı Sağda) --- */}
+      {/* --- HERO SECTION --- */}
       <section id="hero" className="max-w-7xl mx-auto px-6 w-full min-h-[90vh] md:min-h-screen flex flex-col lg:flex-row items-center justify-between relative pt-32 pb-20 overflow-hidden">
         
-        {/* Ortam Işığı (Sola, görselin arkasına kaydırıldı) */}
-        <div className="absolute top-1/2 left-1/2 lg:left-1/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.04] blur-[150px] rounded-full pointer-events-none"></div>
+        {/* Ortam Işığı */}
+        <div className="absolute top-1/2 left-1/2 lg:left-1/4 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-primary/4 blur-[150px] rounded-full pointer-events-none"></div>
 
-        {/* Sol Kısım: Editoryal Afiş (Görsel) */}
+        {/* Sol Kısım: Editoryal Afiş */}
         <div className="z-10 w-full lg:w-1/2 flex justify-center lg:justify-start mb-16 lg:mb-0 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-          <div className="relative w-[85%] sm:w-[65%] lg:w-[85%] xl:w-[80%] aspect-[4/5] rounded-sm overflow-hidden border border-primary/20 shadow-[0_0_80px_rgba(192,160,98,0.15)] group">
+          <div className="relative w-[85%] sm:w-[65%] lg:w-[85%] xl:w-[80%] aspect-4/5 rounded-sm overflow-hidden border border-primary/20 shadow-[0_0_80px_rgba(192,160,98,0.15)] group">
             <div className="absolute inset-0 bg-primary/10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-1000 z-10"></div>
-            {/* Portre resminde nesne doldurması için cover uygundur */}
             <Image src="/assets/mezuniyet.jpg" alt="Alperen Börklü" fill sizes="(max-width: 1024px) 80vw, 40vw" className="object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.5s] group-hover:scale-105" priority />
             
-            {/* Lüks Detay: Hover anında beliren iç etiket */}
             <div className="absolute bottom-8 left-8 z-20 overflow-hidden pointer-events-none hidden md:block">
               <div className="translate-y-[120%] group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.7,0,0.3,1)] flex items-center gap-4">
-                <span className="w-8 h-[1px] bg-white"></span>
+                <span className="w-8 h-px bg-white"></span>
                 <span className="text-[9px] tracking-[0.4em] text-white uppercase font-bold drop-shadow-md">Director</span>
               </div>
             </div>
@@ -233,10 +231,8 @@ export default function Home() {
 
         {/* Sağ Kısım: Dev Tipografi ve CTA */}
         <div className="z-10 flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:w-1/2 lg:pl-12 xl:pl-16 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 delay-200 ease-out">
-          
-          {/* Bağlayıcı Çizgi ve Üst Başlık */}
           <div className="flex items-center gap-6 mb-6 md:mb-8">
-            <div className="w-16 h-[1px] bg-primary/50 hidden lg:block"></div>
+            <div className="w-16 h-px bg-primary/50 hidden lg:block"></div>
             <p className="text-primary font-bold tracking-[0.5em] uppercase text-[10px]">Visual Artist</p>
           </div>
 
@@ -250,52 +246,51 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto justify-center lg:justify-start">
-            <Link href="https://www.youtube.com/watch?v=v-fPkuxrqN4" target="_blank" className="relative group overflow-hidden border border-primary px-12 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.3em] text-primary transition-colors duration-500 w-full sm:w-auto text-center">
+            <Link href="https://www.youtube.com/watch?v=v-fPkuxrqN4" target="_blank" className="relative group overflow-hidden border border-primary px-12 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.3em] text-primary transition-colors duration-500 w-full sm:w-auto text-center focus:outline-none focus:ring-2 focus:ring-primary">
               <span className="relative z-10 group-hover:text-black transition-colors duration-500">Watch Showreel</span>
               <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.7,0,0.3,1)]"></div>
             </Link>
-            <Link href="#work" className="border border-white/20 text-white px-12 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-colors duration-500 w-full sm:w-auto text-center">
+            <Link href="#work" className="border border-white/20 text-white px-12 py-5 rounded-sm text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-colors duration-500 w-full sm:w-auto text-center focus:outline-none focus:ring-2 focus:ring-white">
               View Works
             </Link>
           </div>
         </div>
 
-        {/* Lüks Scroll Indicator (Merkezde) */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-4 opacity-50 z-10 reveal-on-scroll opacity-0 transition-all duration-1000 delay-500 ease-out">
-          <div className="w-[1px] h-16 bg-white/10 relative overflow-hidden">
+        {/* Lüks Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-4 z-10 reveal-on-scroll opacity-0 transition-all duration-1000 delay-500 ease-out">
+          <div className="w-px h-16 bg-white/10 relative overflow-hidden">
             <div className="w-full h-full bg-primary absolute top-0 left-0 animate-scroll-line"></div>
           </div>
           <span className="text-[8px] tracking-[0.4em] uppercase text-primary font-bold">Scroll</span>
         </div>
       </section>
 
-      {/* --- WORK SECTION (GÖRSELLERİN KESİLMEMESİ İÇİN DÜZELTİLDİ) --- */}
+      {/* --- WORK SECTION --- */}
       <section id="work" className="py-32 max-w-7xl mx-auto px-6 w-full">
         <div className="flex flex-col items-center justify-center mb-24 text-center reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-          <div className="w-[1px] h-16 bg-primary/50 mb-8"></div>
+          <div className="w-px h-16 bg-primary/50 mb-8"></div>
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6">Portfolio</span>
           <h2 className="text-4xl md:text-6xl font-medium font-playfair text-white tracking-tight">Selected Works</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {works.map((work, index) => (
-            <div 
+            <button 
               key={index} 
-              // aspect-ratio zorlaması kaldırıldı, sabit yükseklikli bir galeri çerçevesine dönüştürüldü
-              className="group relative h-[350px] sm:h-[420px] bg-[#050505] overflow-hidden cursor-zoom-in rounded-sm border border-white/5 hover:border-primary/30 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out flex items-center justify-center"
+              type="button"
+              className="group relative h-87.5 sm:h-105 bg-[#050505] overflow-hidden cursor-zoom-in rounded-sm border border-white/5 hover:border-primary/30 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out flex items-center justify-center"
               style={{ transitionDelay: `${index * 100}ms` }}
               onClick={() => setLightboxData({ src: work.src, title: work.title })}
             >
-              {/* object-contain ve p-6 kullanılarak görsellerin 100% kendi orijinal boyutlarında (kesilmeden) gösterilmesi sağlandı */}
               <Image src={work.src} alt={work.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-contain p-6 transition-transform duration-[1.5s] group-hover:scale-105 opacity-80 group-hover:opacity-100 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" />
               
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8">
+              <div className="absolute inset-0 bg-linear-to-t from-[#080808] via-[#080808]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8">
                 <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700 ease-out">
                   <h3 className="text-2xl font-medium text-white font-playfair mb-2">{work.title}</h3>
                   <p className="text-[9px] text-primary font-bold uppercase tracking-[0.3em]">{work.category}</p>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
@@ -303,7 +298,7 @@ export default function Home() {
       {/* --- ABOUT SECTION --- */}
       <section id="about" className="py-32 max-w-7xl mx-auto px-6 w-full border-t border-white/5 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
         <div className="flex flex-col items-center justify-center mb-24 text-center">
-          <div className="w-[1px] h-16 bg-primary/50 mb-8"></div>
+          <div className="w-px h-16 bg-primary/50 mb-8"></div>
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6">Philosophy</span>
           <h2 className="text-4xl md:text-6xl font-medium font-playfair text-white tracking-tight">The Artist</h2>
         </div>
@@ -318,7 +313,7 @@ export default function Home() {
           
           <div className="space-y-8 text-zinc-400 leading-relaxed text-lg font-light">
             <p>I&apos;m a visual storyteller working at the intersection of film, design, and strategy. My background spans 2D–3D animation, directing, and post-production, with a strong focus on atmosphere, rhythm, and meaning. I approach every project as both a creative and a system — balancing emotion with structure.</p>
-            <p>I&apos;ve worked across short films, documentaries, commercials, and personal projects, taking on roles from concept development to final delivery. Storyboarding, visual language, and narrative clarity are at the core of how I work.</p>
+            <p>In addition to motion and film, I specialize in <strong className="text-white font-medium">website design, corporate identity, and logo design</strong>. I&apos;ve worked across short films, documentaries, commercials, and comprehensive brand identity projects, taking on roles from concept development to final delivery. Storyboarding, visual language, and narrative clarity are at the core of how I work.</p>
           </div>
         </div>
       </section>
@@ -326,7 +321,7 @@ export default function Home() {
       {/* --- TESTIMONIALS SECTION --- */}
       <section id="testimonials" className="py-32 max-w-7xl mx-auto px-6 w-full border-t border-white/5 bg-[#0a0a0a] reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
         <div className="flex flex-col items-center justify-center mb-24 text-center">
-          <div className="w-[1px] h-16 bg-primary/50 mb-8"></div>
+          <div className="w-px h-16 bg-primary/50 mb-8"></div>
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6">Referrals</span>
           <h2 className="text-4xl md:text-6xl font-medium font-playfair text-white tracking-tight">Client Reviews</h2>
         </div>
@@ -337,7 +332,7 @@ export default function Home() {
               <div className="text-primary text-xs mb-6 tracking-[0.2em] opacity-60 group-hover:opacity-100 transition-opacity">★★★★★</div>
               <p className="text-zinc-400 text-sm font-light leading-loose mb-8 italic">&quot;{review.text}&quot;</p>
               <div className="flex items-center gap-4">
-                <div className="w-8 h-[1px] bg-primary/40 group-hover:w-12 transition-all duration-500"></div>
+                <div className="w-8 h-px bg-primary/40 group-hover:w-12 transition-all duration-500"></div>
                 <p className="text-white font-bold text-[9px] uppercase tracking-[0.3em]">{review.name}</p>
               </div>
             </div>
@@ -347,15 +342,15 @@ export default function Home() {
 
       {/* --- BRANDS SECTION --- */}
       <section id="brands" className="py-32 w-full relative border-y border-white/5 bg-[#080808] reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-        <div className="absolute left-0 top-0 bottom-0 w-32 md:w-96 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-32 md:w-96 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-32 md:w-96 bg-linear-to-r from-background to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-32 md:w-96 bg-linear-to-l from-background to-transparent z-10 pointer-events-none"></div>
         <div className="max-w-7xl mx-auto px-6 w-full mb-20 text-center z-20 relative">
           <h2 className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary">Collaborations & Trust</h2>
         </div>
         <div className="w-full overflow-hidden flex">
           <div className="animate-marquee gap-32 items-center px-8 opacity-30 hover:opacity-100 transition-opacity duration-700">
             {[...brands, ...brands, ...brands, ...brands, ...brands].map((brand, index) => (
-              <div key={index} className="relative w-40 h-16 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-700">
+              <div key={index} className="relative w-40 h-16 shrink-0 grayscale hover:grayscale-0 transition-all duration-700">
                 <Image src={brand.src} alt={brand.name} fill sizes="160px" className="object-contain" />
               </div>
             ))}
@@ -366,7 +361,7 @@ export default function Home() {
       {/* --- PRICING SECTION --- */}
       <section id="pricing" className="py-32 max-w-7xl mx-auto px-6 w-full">
         <div className="flex flex-col items-center justify-center mb-24 text-center reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
-          <div className="w-[1px] h-16 bg-primary/50 mb-8"></div>
+          <div className="w-px h-16 bg-primary/50 mb-8"></div>
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6">Investment</span>
           <h2 className="text-4xl md:text-6xl font-medium font-playfair text-white tracking-tight">Services</h2>
         </div>
@@ -383,7 +378,7 @@ export default function Home() {
               <li className="flex items-center gap-4"><span className="w-1.5 h-1.5 bg-primary rounded-full opacity-70"></span> 1 Revision Round</li>
               <li className="flex items-center gap-4"><span className="w-1.5 h-1.5 bg-primary rounded-full opacity-70"></span> Standard Delivery (5 Days)</li>
             </ul>
-            <button onClick={() => handleOpenQuoteModal('Basic')} className="w-full py-5 border border-white/10 text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm">Request Quote</button>
+            <button type="button" onClick={() => handleOpenQuoteModal('Basic')} className="w-full py-5 border border-white/10 text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:border-primary hover:text-primary focus:outline-none focus:border-primary focus:text-primary transition-colors duration-300 rounded-sm">Request Quote</button>
           </div>
 
           <div className="bg-[#0f0f0f] rounded-sm p-14 border border-primary/50 flex flex-col relative shadow-[0_0_60px_rgba(192,160,98,0.08)] transform lg:-translate-y-6 z-10 reveal-on-scroll opacity-0 translate-y-12 ease-out" style={{ transitionDelay: '150ms' }}>
@@ -399,7 +394,7 @@ export default function Home() {
               <li className="flex items-center gap-4"><span className="w-1.5 h-1.5 bg-primary rounded-full"></span> 2 Revision Rounds</li>
               <li className="flex items-center gap-4"><span className="w-1.5 h-1.5 bg-primary rounded-full"></span> Commercial Rights</li>
             </ul>
-            <button onClick={() => handleOpenQuoteModal('Standard')} className="w-full py-5 bg-primary text-black text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-white transition-colors duration-300 rounded-sm">Request Quote</button>
+            <button type="button" onClick={() => handleOpenQuoteModal('Standard')} className="w-full py-5 bg-primary text-black text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0f0f0f] transition-colors duration-300 rounded-sm">Request Quote</button>
           </div>
 
           <div className="bg-[#0a0a0a] rounded-sm p-14 border border-white/5 flex flex-col hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 reveal-on-scroll opacity-0 translate-y-12 ease-out" style={{ transitionDelay: '300ms' }}>
@@ -414,7 +409,7 @@ export default function Home() {
               <li className="flex items-center gap-4"><span className="w-1.5 h-1.5 bg-primary rounded-full opacity-70"></span> Priority Support</li>
               <li className="flex items-center gap-4"><span className="w-1.5 h-1.5 bg-primary rounded-full opacity-70"></span> Unlimited Revisions</li>
             </ul>
-            <button onClick={() => handleOpenQuoteModal('Gold')} className="w-full py-5 border border-white/10 text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:border-primary hover:text-primary transition-colors duration-300 rounded-sm">Request Quote</button>
+            <button type="button" onClick={() => handleOpenQuoteModal('Gold')} className="w-full py-5 border border-white/10 text-white text-[10px] tracking-[0.3em] font-bold uppercase hover:border-primary hover:text-primary focus:outline-none focus:border-primary focus:text-primary transition-colors duration-300 rounded-sm">Request Quote</button>
           </div>
         </div>
       </section>
@@ -422,16 +417,17 @@ export default function Home() {
       {/* --- BLOG SECTION --- */}
       <section id="blog" className="py-32 max-w-7xl mx-auto px-6 w-full bg-[#0a0a0a] rounded-3xl reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
         <div className="flex flex-col items-center justify-center mb-24 text-center">
-          <div className="w-[1px] h-16 bg-primary/50 mb-8"></div>
+          <div className="w-px h-16 bg-primary/50 mb-8"></div>
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6">Insights</span>
           <h2 className="text-4xl md:text-6xl font-medium font-playfair text-white tracking-tight">Writings</h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {blogPosts.slice(0, visibleBlogCount).map((blog, index) => (
-            <div 
+            <button 
               key={index} 
-              className="group bg-[#080808] p-12 rounded-sm border border-white/5 hover:border-primary/40 cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 shadow-lg"
+              type="button"
+              className="group bg-[#080808] p-12 rounded-sm border border-white/5 hover:border-primary/40 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 cursor-pointer transition-all duration-500 flex flex-col text-left hover:-translate-y-2 shadow-lg"
               onClick={() => setActiveBlog(blog)}
             >
               <span className="text-[9px] text-zinc-500 font-bold tracking-[0.3em] uppercase mb-8 block group-hover:text-primary transition-colors">{blog.category}</span>
@@ -442,21 +438,22 @@ export default function Home() {
               </div>
               
               <div className="flex items-center gap-5 mt-auto opacity-50 group-hover:opacity-100 transition-opacity">
-                <span className="w-8 h-[1px] bg-primary"></span>
+                <span className="w-8 h-px bg-primary"></span>
                 <span className="text-primary text-[10px] font-bold tracking-[0.3em] uppercase">Read Article</span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
         {!isAllBlogsVisible && (
           <div className="mt-24 flex flex-col items-center justify-center">
             <button 
+              type="button"
               onClick={handleShowMoreBlogs}
-              className="group flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-white hover:text-primary transition-colors duration-300"
+              className="group flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.3em] text-white hover:text-primary focus:outline-none focus:text-primary transition-colors duration-300"
             >
               Load More Articles
-              <span className="w-10 h-[1px] bg-white group-hover:bg-primary transition-colors"></span>
+              <span className="w-10 h-px bg-white group-hover:bg-primary transition-colors"></span>
             </button>
           </div>
         )}
@@ -465,14 +462,14 @@ export default function Home() {
       {/* --- RESUME SECTION --- */}
       <section id="resume" className="py-32 max-w-7xl mx-auto px-6 w-full border-t border-white/5 mt-16 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
         <div className="flex flex-col items-center justify-center mb-24 text-center">
-          <div className="w-[1px] h-16 bg-primary/50 mb-8"></div>
+          <div className="w-px h-16 bg-primary/50 mb-8"></div>
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6">Background</span>
           <h2 className="text-4xl md:text-6xl font-medium font-playfair text-white tracking-tight">Resume</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.5fr] gap-24">
           <div className="flex flex-col space-y-16">
-            <div className="w-full aspect-[3/4] relative grayscale hover:grayscale-0 transition-all duration-[1.5s] rounded-sm overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(192,160,98,0.05)]">
+            <div className="w-full aspect-3/4 relative grayscale hover:grayscale-0 transition-all duration-[1.5s] rounded-sm overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(192,160,98,0.05)]">
               <Image src="/assets/mezuniyet.jpg" alt="Alperen" fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover" />
             </div>
             <div>
@@ -509,23 +506,23 @@ export default function Home() {
               <h4 className="text-[9px] font-bold text-zinc-600 mb-10 tracking-[0.4em] uppercase border-b border-white/5 pb-4">Experience</h4>
               <div className="space-y-12">
                 <div className="flex flex-col md:flex-row md:gap-12 group">
-                  <h5 className="text-xl font-medium text-white min-w-[220px] font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">AUTODESK</h5>
+                  <h5 className="text-xl font-medium text-white min-w-55 font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">AUTODESK</h5>
                   <p className="text-zinc-400 text-base font-light leading-relaxed">Integrated Fusion 360 software into the curricula of METU and multiple other universities, bridging the gap between academic theory and practical 3D application.</p>
                 </div>
                 <div className="flex flex-col md:flex-row md:gap-12 group">
-                  <h5 className="text-xl font-medium text-white min-w-[220px] font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">KREATIN STUDIO</h5>
+                  <h5 className="text-xl font-medium text-white min-w-55 font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">KREATIN STUDIO</h5>
                   <p className="text-zinc-400 text-base font-light leading-relaxed">Character Design & Animation focused on breathing life and personality into digital models.</p>
                 </div>
                 <div className="flex flex-col md:flex-row md:gap-12 group">
-                  <h5 className="text-xl font-medium text-white min-w-[220px] font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">ADVER AJANS</h5>
+                  <h5 className="text-xl font-medium text-white min-w-55 font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">ADVER AJANS</h5>
                   <p className="text-zinc-400 text-base font-light leading-relaxed">Full-spectrum creative experience within a 360-degree agency environment, understanding client needs from conception to execution.</p>
                 </div>
                 <div className="flex flex-col md:flex-row md:gap-12 group">
-                  <h5 className="text-xl font-medium text-white min-w-[220px] font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">FREELANCE</h5>
+                  <h5 className="text-xl font-medium text-white min-w-55 font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">FREELANCE</h5>
                   <p className="text-zinc-400 text-base font-light leading-relaxed">Delivered wide-ranging projects from TRT documentaries to Ministry of Trade campaigns, focusing heavily on CG and lighting art direction.</p>
                 </div>
                 <div className="flex flex-col md:flex-row md:gap-12 group">
-                  <h5 className="text-xl font-medium text-white min-w-[220px] font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">DIRECTOR</h5>
+                  <h5 className="text-xl font-medium text-white min-w-55 font-playfair mb-3 md:mb-0 group-hover:text-primary transition-colors">DIRECTOR</h5>
                   <p className="text-zinc-400 text-base font-light leading-relaxed">Directed 8 short films, earning official selections in over 20 international film festivals.</p>
                 </div>
               </div>
@@ -553,7 +550,7 @@ export default function Home() {
       </section>
 
       {/* --- CONTACT SECTION --- */}
-      <section id="contact" className="py-40 max-w-7xl mx-auto px-6 w-full border-t border-white/5 mt-20 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
+      <section id="contact" className="py-32 max-w-7xl mx-auto px-6 w-full border-t border-white/5 mt-20 reveal-on-scroll opacity-0 translate-y-12 transition-all duration-1000 ease-out">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
           
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-8">Inquiries</span>
@@ -583,7 +580,7 @@ export default function Home() {
             </div>
 
             <div className="pt-16 flex justify-center">
-              <button type="submit" className="relative group overflow-hidden border border-primary px-16 py-6 rounded-sm text-[11px] font-bold uppercase tracking-[0.3em] text-primary transition-colors duration-500">
+              <button type="submit" className="relative group overflow-hidden border border-primary px-16 py-6 rounded-sm text-[11px] font-bold uppercase tracking-[0.3em] text-primary transition-colors duration-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#080808]">
                 <span className="relative z-10 group-hover:text-black transition-colors duration-500">Send Message</span>
                 <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.7,0,0.3,1)]"></div>
               </button>
@@ -591,7 +588,6 @@ export default function Home() {
           </form>
         </div>
       </section>
-
     </div>
   );
 }

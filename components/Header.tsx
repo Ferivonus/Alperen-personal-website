@@ -26,10 +26,10 @@ export default function Header() {
 
   return (
     <header 
-      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
+      className={`fixed top-0 w-full z-100 transition-all duration-300 ${
         scrolled 
           ? 'py-4 bg-zinc-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg' 
-          : 'py-6 bg-gradient-to-b from-black/80 to-transparent'
+          : 'py-6 bg-linear-to-b from-black/80 to-transparent'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
@@ -57,7 +57,7 @@ export default function Header() {
           </div>
           
           {/* Menü ile buton arasına dikey zarif bir ayrım çizgisi */}
-          <div className="w-[1px] h-4 bg-white/20"></div>
+          <div className="w-px h-4 bg-white/20"></div>
 
           <Link 
             href="#contact" 
@@ -73,9 +73,9 @@ export default function Header() {
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className="w-6 flex flex-col items-end gap-1.5">
-            <span className={`h-[2px] bg-white transition-all duration-300 ${isOpen ? 'w-6 rotate-45 translate-y-[8px]' : 'w-6'}`}></span>
-            <span className={`h-[2px] bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : 'w-4'}`}></span>
-            <span className={`h-[2px] bg-white transition-all duration-300 ${isOpen ? 'w-6 -rotate-45 -translate-y-[8px]' : 'w-5'}`}></span>
+            <span className={`h-0.5 bg-white transition-all duration-300 ${isOpen ? 'w-6 rotate-45 translate-y-2' : 'w-6'}`}></span>
+            <span className={`h-0.5 bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : 'w-4'}`}></span>
+            <span className={`h-0.5 bg-white transition-all duration-300 ${isOpen ? 'w-6 -rotate-45 -translate-y-2' : 'w-5'}`}></span>
           </div>
         </button>
       </div>

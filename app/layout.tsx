@@ -43,6 +43,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+
+  // 1. EKLENTİ: Google Search Console Doğrulaması (SEO)
+  // Siteni Google'a kaydettiğinde sana verecekleri kodu buraya yazacaksın
+  verification: {
+    google: 'google-site-verification-kodunu-buraya-yaz',
+  },
   
   openGraph: {
     type: 'website',
@@ -66,11 +72,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Alperen Börklü | Visual Artist & Motion Designer',
     description: 'Visual artist and motion designer specializing in 3D animation, visual storytelling, and cinematic motion.',
-    creator: '@alperenborklu', // Eğer Twitter (X) hesabın varsa buraya handle'ını yazabilirsin
-    images: {
-      url: '/assets/mezuniyet.jpg',
-      alt: 'Alperen Börklü - Visual Artist Portfolio',
-    },
+    creator: '@alperenborklu',
+    // Önceki hatayı düzelttiğimiz kısım (Array yapısı)
+    images: ['/assets/mezuniyet.jpg'], 
   },
   
   robots: {
@@ -93,6 +97,27 @@ export const metadata: Metadata = {
   },
 };
 
+// 2. EKLENTİ: ChatGPT ve Google için Yapılandırılmış Veri (JSON-LD Schema)
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Alperen Börklü",
+  "url": "https://alperenborklu.com",
+  "image": "https://alperenborklu.com/assets/mezuniyet.jpg",
+  "jobTitle": "Visual Artist & Motion Designer",
+  "description": "Visual artist and motion designer blending cinematic storytelling with structural design in 3D animation and art direction.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ankara",
+    "addressCountry": "TR"
+  },
+  "sameAs": [
+    "https://www.instagram.com/alperenbarkley/",
+    "https://www.linkedin.com/in/alperen-b%C3%B6rkl%C3%BC-47198112a/",
+    "https://www.youtube.com/@alperenborklu4005"
+  ]
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -100,6 +125,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        {/* JSON-LD Script'ini sayfaya gömüyoruz */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#080808] text-white antialiased`}>
         <Header />
         {/* Ana sayfa içeriği */}
