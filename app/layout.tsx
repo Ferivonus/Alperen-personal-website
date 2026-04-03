@@ -91,9 +91,9 @@ export const metadata: Metadata = {
   },
   
   icons: {
-    icon: '/assets/mezuniyet.jpg',
-    shortcut: '/assets/mezuniyet.jpg',
-    apple: '/assets/mezuniyet.jpg',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/assets/mezuniyet.jpg', // Apple (iOS) cihazlar için yüksek çözünürlüklü görselin kalması en iyi pratiktir.
   },
 };
 
