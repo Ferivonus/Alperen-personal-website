@@ -3,6 +3,8 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+// 1. ADIM: Next.js Script bileşenini projeye dahil ediyoruz
+import Script from 'next/script'; 
 
 // Font ayarları
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -32,20 +34,16 @@ export const metadata: Metadata = {
   creator: 'Alperen Börklü',
   publisher: 'Alperen Börklü',
   
-  // Mobil cihazların sayıları ve mailleri çirkin mavi linklere çevirmesini engeller
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   
-  // Arama motorları için kopya içerik karışıklığını önler
   alternates: {
     canonical: '/',
   },
 
-  // 1. EKLENTİ: Google Search Console Doğrulaması (SEO)
-  // Siteni Google'a kaydettiğinde sana verecekleri kodu buraya yazacaksın
   verification: {
     google: 'google-site-verification-kodunu-buraya-yaz',
   },
@@ -73,7 +71,6 @@ export const metadata: Metadata = {
     title: 'Alperen Börklü | Visual Artist & Motion Designer',
     description: 'Visual artist and motion designer specializing in 3D animation, visual storytelling, and cinematic motion.',
     creator: '@alperenborklu',
-    // Önceki hatayı düzelttiğimiz kısım (Array yapısı)
     images: ['/assets/mezuniyet.jpg'], 
   },
   
@@ -93,11 +90,10 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
-    apple: '/assets/mezuniyet.jpg', // Apple (iOS) cihazlar için yüksek çözünürlüklü görselin kalması en iyi pratiktir.
+    apple: '/assets/mezuniyet.jpg', 
   },
 };
 
-// 2. EKLENTİ: ChatGPT ve Google için Yapılandırılmış Veri (JSON-LD Schema)
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -126,15 +122,31 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* JSON-LD Script'ini sayfaya gömüyoruz */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#080808] text-white antialiased`}>
+        
+        {/* 2. ADIM: Google Reklam (gTag) Kodlarının Eklenmesi */}
+        {/* Dışarıdan gelen ana kütüphane dosyası */}
+        {/* ilgili kısımla ilgili bir fikrim yok, apleren kendisi eklememi istedi. */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16853546240"
+          strategy="afterInteractive"
+        />
+        {/* Etiketi çalıştıran yapılandırma ayarı */}
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-16853546240');
+          `}
+        </Script>
+
         <Header />
-        {/* Ana sayfa içeriği */}
         <main className="min-h-screen relative">
           {children}
         </main>
